@@ -9,8 +9,6 @@
 2. `hexo`,通过`npm install hexo -g`安装;
 3. github仓库(username.github.io)
 
-<!-- more -->
-
 ### 常用命令
 
 * `hexo init`创建文件夹;
@@ -30,6 +28,7 @@ deploy:
     branch: master
 ```
 
+
 ### 主题Themes
 
 ```
@@ -38,7 +37,7 @@ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
 
 该主题需安装插件,生成所有文章的目录
 
-```js
+```
 //仅支持node>6.0
 npm i hexo-generator-json-content --save
 ```
@@ -70,7 +69,7 @@ jsonContent:
 
 ### 一些小技巧
 
-* 让文章只显示一部分,只需要在文章中添加`<!--more-->`,`<!--more-->`后面的内容就不显示了;
+* 让文章只显示一部分,只需要在文章中添加,后面的内容就不显示了;
 * 给文章分类(tags),需要在稳重添加`tags:[node,javascript]`
 
 ### 插件
@@ -96,7 +95,8 @@ npm install hexo-generator-feed --save
 ### hexo免密提交
 
 1.输入指令，进入.ssh文件夹
-```
+
+```js
 cd ~/.ssh/
 ```
 如无文件夹,可手动创建`.ssh`文件夹
@@ -133,11 +133,11 @@ deploy:
 
 ### 个人域名的绑定
 
-1.在腾讯云申请域名`zy1991.cn`,进行实名认证.
-2.在腾讯云进行域名解析,如下图操作:
+1. 在腾讯云申请域名`zy1991.cn`,进行实名认证.
+2. 在腾讯云进行域名解析,如下图操作:
 ![操作示意图](http://oritfw5nq.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170615141211.png)
-3.进入博客根目录下的`source`文件夹,新建`CNAME`,`CNAME`中输入域名`zy1991.cn`;
-4.`hexo clean & hexo g & hexo d`即可访问自定义域名`zy1991.cn`下的博客啦;
+3. 进入博客根目录下的`source`文件夹,新建`CNAME`,`CNAME`中输入域名`zy1991.cn`;
+4. `hexo clean & hexo g & hexo d`即可访问自定义域名`zy1991.cn`下的博客啦;
 
 [注]: [检测工具](https://www.qcloud.com/product/tools?from=cns) 可查看域名的解析状态
 
@@ -145,13 +145,13 @@ deploy:
 
 这部分比较简答,注册网易云跟帖账号,按步骤绑定项目,直接拷贝代码至主题下的`post.ejs`
 
-```html
+```
 <div class="comment">
     <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 </div>
 ```
 
-```js
+```
 <!-- 网易云跟帖-->
 <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 <script>
