@@ -1,0 +1,484 @@
+
+[TOC]
+
+### 1、 字符数字二进制
+>[warning]  Write a function that takes an (unsigned) integer as input, and returns the number of bits that are equal to one in the binary representation of that number.
+
+**Example:**
+
+>>[warning] The binary representation of 1234 is 10011010010, so the function should return 5 in this case.
+
+第一个算是常规解法了，也是我的解法~~
+```js
+var countBits = function(n) {
+  let result = 0;
+ n.toString(2).split('').filter(item=>{
+    if(item == 1){
+      return  result+=1;
+    }
+  });
+  return result
+};
+```
+<div class="cline"></div>
+
+摘录几个牛逼的方法
+```js
+function countBits(n) {
+  for(c=0;n;n>>=1)c+=n&1
+  return c;
+}
+```
+
+```js
+countBits = n => n.toString(2).split('0').join('').length;
+```
+
+```js
+var countBits = function(n)
+{
+  a = n.toString(2).match(/1/g);
+  return a == null ? 0 : a.length;
+};
+
+```
+
+
+### 2、 获取字符串数组最长字段
+
+>[warning] 2. 截取字符串数组中最长的字符串，blalala
+
+```js
+function longestConsec(strarr, k) {
+  let n = strarr.length,result="";
+  if(n === 0 || k>n || k<=0){
+    return "";
+  }
+  strarr.sort(function(a,b){
+		return a.length<b.length;
+	});
+	
+	for(let i =0;i<k;i++){
+		result+=strarr[i];
+	}
+	return result;
+	
+}
+
+longestConsec(["wlwsasphmxx","owiaxujylentrklctozmymu","wpgozvxxiu"], 2)
+```
+
+### 3、字符串字母序号
+
+>[warning]  In this kata you are required to, given a string, replace every letter with its position in the alphabet.
+If anything in the text isn't a letter, ignore it and don't return it.
+a being 1, b being 2, etc.
+
+**As an example:**
+
+```
+alphabet_position("The sunset sets at twelve o' clock.")
+```
+
+>[warning] Should return `"20 8 5 19 21 14 19 5 20 19 5 20 19 1 20 20 23 5 12 22 5 15 3 12 15 3 11"` as a string.
+
+<div class="cline"></div>
+
+```js
+function alphabetPosition(text) {
+  const target = 'abcdefghijklmnopqrstuvwxyz'.split('');
+	let array = text.toLowerCase().match(/[a-z]/g);
+  if(null == array)return '';
+	text = array.map(item=>{
+		return target.indexOf(item)+1;
+	}).join(' ');
+  return text;
+}
+```
+
+<div class="cline"></div>
+
+```js
+function alphabetPosition(text) {
+  var result = "";
+  for (var i = 0; i < text.length; i++){
+    var code = text.toUpperCase().charCodeAt(i)
+    if (code > 64 && code < 91) result += (code - 64) + " ";
+  }
+
+  return result.slice(0, result.length-1);
+}
+```
+<div class="cline"></div>
+
+```js
+let alphabetPosition = (text) => text.toUpperCase().replace(/[^A-Z]/g, '').split('').map(ch => ch.charCodeAt(0) - 64).join(' ');
+```
+<a class="crun" href="http://jsbin.com/duqehal/edit?html,js,console"  target="_blank"></a>
+
+### 4、求数组中出现奇数次的值
+
+>[warning] Given an array, find the int that appears an odd number of times.
+There will always be only one integer that appears an odd number of times.
+
+```js
+ //搓方法
+function findOdd(param) {
+	let set = new Set(param),
+			result = '';
+	[...set].forEach(item=>{
+		let count = 0;
+		param.forEach(p=>{
+				if(item == p){
+					count++
+				}
+		});
+		if(count%2 !== 0){
+			 result = item
+		}
+	});
+  return result;
+}
+
+```
+
+```js
+const findOdd = (xs)=>{
+	return xs.reduce((a,b)=>{
+		return a^b
+	});
+}
+console.log(findOdd([20,5,-1,2,-2,3,3,5,5,1,2,4,20,4,-1,-2,5]));
+```
+
+<div class="cline"></div>
+
+```js
+//对象属性去重，计数法
+function findOdd(A) {
+  var obj = {};
+  A.forEach(function(el){
+    obj[el] ? obj[el]++ : obj[el] = 1;
+  });
+  
+  for(prop in obj) {
+    if(obj[prop] % 2 !== 0) return Number(prop);
+  }
+}
+//更好的实践，只有一循环
+function findOdd(A) {
+  var trace = {};
+  A.forEach(function(x) {
+    if (trace[x]) delete trace[x];
+    else trace[x] = true;
+  });
+  return parseInt(Object.keys(trace)[0]);
+}
+```
+<a class="crun" href="http://jsbin.com/xikoji/edit?js,console" target="_blank"></a>
+
+关于方法二的解释，下面引用下：
+
+After having my mind blown by this solution and spending the next hour trying to really understand why this worked, I'd like to try to explain it:
+
+`^ is the XOR Bitwise Operator`
+
+From Wikipedia: https://en.wikipedia.org/wiki/Bitwise_operation#XOR
+
+A bitwise XOR takes two bit patterns of equal length and performs the logical exclusive OR operation on each pair of corresponding bits. The result in each position is 1 if only the first bit is 1 or only the second bit is 1, but will be 0 if both are 0 or both are 1. In this we perform the comparison of two bits, being 1 if the two bits are different, and 0 if they are the same.
+`16 ^ 6 -> 22`
+
+Looks like this when broken down into binary:
+
+```
+/#  [32]  [16]  [8]  [4]  [2]  [1]
+16    0     1    0    0    0    0
+6     0     0    0    1    1    0
+22    0     1    0    1    1    0
+```
+If the column values are the same (ie: 1/1 or 0/0) then the result for that column is 0
+
+If the column values are different (as in columns [16], [4], and [2]) then the result for that column is 1.
+
+Because of this, "same" = 0 & "different" = 1, rule, if the same # occurs twice, it becomes cancelled out of the result.
+
+`22 ^ 22 -> 0`
+```
+/#  [32]  [16]  [8]  [4]  [2]  [1]
+22    0     1    0    1    1    0
+22    0     1    0    1    1    0
+0     0     0    0    0    0    0
+```
+So for this Kata, only the # that shows up an ODD number of times will survive 'til the end.
+
+```
+/#  [32]  [16]  [8]  [4]  [2]  [1]
+5    0     0     0    1    0    1 - ODD
+5    0     0     0    1    0    1 - EVEN
+0    0     0     0    0    0    0 - ^ result
+5    0     0     0    1    0    1 - ODD
+```
+Hope that helps!
+
+
+### 5、过滤非数字数组
+>[warning] In this kata you will create a function that takes a list of non-negative integers and strings and returns a new list with the strings filtered out.
+
+**Example**
+```js
+filter_list([1,2,'a','b']) == [1,2]
+filter_list([1,'a','b',0,15]) == [1,0,15]
+filter_list([1,2,'aasf','1','123',123]) == [1,2,123]
+```
+
+解答：
+```js
+function filter_list(l) {
+  return l.filter(item=>typeof item =='number')
+}
+```
+
+### 6、字符串格式化
+>[warning]  Write a function that accepts an array of 10 integers (between 0 and 9), that returns a string of those numbers in the form of a phone number.
+>**Example:**
+>
+```js
+createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) // => returns "(123) 456-7890"
+```
+>>[warning] The returned format must be correct in order to complete this challenge. 
+Don't forget the space after the closing parenthesis!
+
+我的解法：
+
+```js
+//该方法计算替换的下标不够直观
+function createPhoneNumber(numbers){
+  	numbers.unshift('(');
+	numbers.splice(4,0,')',' ')
+	numbers.splice(9,0,'-')
+	return numbers.join('');
+}
+```
+
+别人家的代码
+
+```js
+//这个方法算是比较巧妙吧
+function createPhoneNumber(numbers){
+	let format = '(xxx) xxx-xxxx';
+     for(var i = 0; i < numbers.length; i++)
+      {
+        format = format.replace('x', numbers[i]);
+      }
+      return format;
+}
+```
+<div class="cline"></div>
+
+```js
+//这个方法跟我的差不多，一个是操作数组，一个操作字符串，可能效率相对会高点
+function createPhoneNumber(numbers){
+  numbers = numbers.join('');
+  return '(' + numbers.substring(0, 3) + ') ' 
+      + numbers.substring(3, 6) 
+      + '-' 
+      + numbers.substring(6);
+}
+```
+
+<div class="cline"></div>
+
+```js
+//这个就牛逼了
+function createPhoneNumber(numbers){
+  return numbers.join('').replace(/(...)(...)(.*)/, '($1) $2-$3');
+}
+```
+先看下[官方文档](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter)的描述：
+
+![](images/screenshot_1516341591081.png)
+
+|  字符  | 替换文本  |
+| --- | --- |
+|  $1、$2、...、$99  |   与 regexp 中的第 1 到第 99 个子表达式相匹配的文本。 |
+|  $&  |  与 regexp 相匹配的子串。  |
+| $\`   | 位于匹配子串左侧的文本。   |
+|  $'  |  位于匹配子串右侧的文本。  |
+| $$   |  直接量符号。  |
+
+>[success] 字符串 stringObject 的 replace() 方法执行的是查找并替换的操作。它将在 stringObject 中查找与 regexp 相匹配的子字符串，然后用 replacement 来替换这些子串。如果 regexp 具有全局标志 g，那么 replace() 方法将替换所有匹配的子串。否则，它只替换第一个匹配子串。
+replacement 可以是字符串，也可以是函数。如果它是字符串，那么每个匹配都将由字符串替换。但是 replacement 中的 $ 字符具有特定的含义。如下表所示，它说明从模式匹配得到的字符串将用于替换。
+
+### 7、数字按位和的组合
+>[warning] Write Number in Expanded Form
+You will be given a number and you will need to return it as a string in Expanded Form. 
+
+**For Example:**
+```js
+expandedForm(12); // Should return '10 + 2'
+expandedForm(42); // Should return '40 + 2'
+expandedForm(70304); // Should return '70000 + 300 + 4'
+```
+>[warning] NOTE: All numbers will be whole numbers greater than 0.
+
+我的解法：
+
+```js
+function expandedForm(num) {
+	num=num.toString();
+  let len = num.length;
+	let result = num.split('').map((item,index)=>{
+		return Number(item) * Math.pow(10,len-index-1)
+	});
+	return result.filter(item=>item!=0).join(' + ')
+}
+```
+这次其他人的解法也差不多，大同小异，主要还是需要一次`map`拿到数组新的映射，再一次`filter`过滤掉值为0的项，下面摘录一个简单的写法(代码可读性并不见得好)：
+
+```js
+const expandedForm = n => n.toString()
+                            .split("")
+                            .reverse()
+                            .map( (a, i) => a * Math.pow(10, i))
+                            .filter(a => a > 0)
+                            .reverse()
+                            .join(" + ");
+```
+
+### 8、求数的约数的数组
+
+>[warning] Create a function named `divisors/Divisors` that takes an integer and returns an array with all of the integer's divisors(except for 1 and the number itself). If the number is prime return the string '(integer) is prime' (null in C#) (use Either String a in Haskell and `Result<Vec<u32>, String>` in Rust).
+
+**Example:**
+
+```js
+divisors(12); // should return [2,3,4,6]
+divisors(25); // should return [5]
+divisors(13); // should return "13 is prime"
+```
+>[warning] You can assume that you will only get positive integers as inputs.
+
+我的解法：
+
+```js
+function divisors(integer) {
+  let r = [];
+  for(let i= 2;i<integer;i++){
+    if(integer%i == 0){
+      r.push(i);
+    }
+  }
+  return r.length == 0 ? `${integer} is prime` :r ;
+};
+```
+
+别人的,循环次数直接减了一半：
+```js
+function divisors(integer) {
+  var res = []
+  for (var i = 2; i <= Math.floor(integer / 2); ++i) if (integer % i == 0) res.push(i);
+  return res.length ? res : integer + ' is prime'
+};
+```
+
+### 9、数组排序
+
+>[warning]Your task is to sort a given string. Each word in the String will contain a single number. This number is the position the word should have in the result.
+Note: Numbers can be from 1 to 9. So 1 will be the first word (not 0).
+If the input String is empty, return an empty String. The words in the input String will only contain valid consecutive numbers.
+For an input: "is2 Thi1s T4est 3a" the function should return "Thi1s is2 3a T4est"
+
+**Example:**
+
+```js
+your_order("is2 Thi1s T4est 3a")
+[1] "Thi1s is2 3a T4est"
+```
+
+我的答案：
+
+```js
+function order(words){
+	var result=[];
+	words.split(' ').map(item=>{
+    if(!item) return false;
+		result[Number(item.match(/[1-9]/)[0])-1]=item;
+	});
+	return result.join(' ');
+}
+```
+答案二，使用`sort`排序：
+
+```js
+function order(words){
+  return !words?'':words.split(' ').sort((a,b)=>+a.match(/\d/g)> +b.match(/\d/g)).join(' ')
+}
+```
+关于`+`在这边的使用可参考【Javascript篇】流水账**。
+
+
+### 10、数组按需过滤
+
+>[warning] 原题有点长，我简要描述下：给定数组，由`NORTH`,`SOUTH`,`WEST`,`EAST`四个值组成，众所周知，`N`和`S`，`W`和`E`互为反方向。算法要求，数组中从前往后每个元素跟它下一个元素比较，如果为反方向，则将它们两干掉（去除），返回剩下值的数组。
+
+**栗子：**
+
+```js
+//1
+输入： ['SOUTH', 'NORTH', 'WEST', 'EAST', 'SOUTH']
+输出：['SOUTH']
+//2.
+输入： ['SOUTH', 'WEST', 'NORTH', 'EAST']
+输出： ['SOUTH', 'WEST', 'NORTH', 'EAST']
+```
+
+这个问题理清楚算法是什么还是比较好解决的，关键一开始理解清楚算法，导致花了很长的时间。
+我的解法，采用了一个递归，执行效率略差：
+
+```js
+const getOppsite = {
+	NORTH:'SOUTH',
+	SOUTH:'NORTH',
+	EAST:'WEST',
+	WEST:'EAST'
+};
+
+function dirReduc(plan) {
+	for(var i=0;i<plan.length;i++){
+        if(plan[i] == getOppsite[plan[i+1]]){
+        	//拿当前元素与它后一个元素的反向进行比较，如果相同则截取掉它们两个，
+            //返回的新数组递归重新比较
+        	plan.splice(i,2);
+           dirReduc(plan);
+        }
+    }
+    return plan;
+}
+```
+<div class="cline"></div>
+
+对于`js`来讲，这道题主要考察的应该是`Array`的高阶函数`reduce`，关于`reduce`的描述已在【流水账】中记录了，这里不再赘述，简要的讲下概念：
+
+>[success] `reduce()` 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。
+
+```js
+const getOppsite = {
+	NORTH:'SOUTH',
+	SOUTH:'NORTH',
+	EAST:'WEST',
+	WEST:'EAST'
+};
+
+function dirReduc(plan) {
+	return plan.reduce(function(result,current){
+    	//这是这个方法的巧妙点，利用数组的最后一位来与当前值进行比较，
+        //刚好达到算法的要求。
+    	if(result[result.length-1] == getOppsite[current]){
+        	result.pop();
+        }else{
+        	result.push(current);
+        }
+        return result;
+    },[]);
+}
+```
