@@ -4,6 +4,8 @@
 
 > **Good good coding,do not think too much**
 
+> 欢迎访问 [**zy1991.cn**](http://zy1991.cn/)
+
 ### CSS
 
 * 2016-02-12 **---**[CSS编码规范](https://github.com/MillZhang/MarkdownBlog/issues/1)
