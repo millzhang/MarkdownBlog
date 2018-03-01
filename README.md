@@ -37,6 +37,8 @@
 
 ### 转载
 
+* 2018-03-02 **---**[【转】git-emoji使用指南](https://github.com/MillZhang/MarkdownBlog/issues/18)
+
 ### 教程
 
 * 2017-04-03 **---**[Hexo个人博客搭建指南](https://github.com/MillZhang/MarkdownBlog/issues/6)
