@@ -27,7 +27,9 @@
 
 ### Python
 
-* 2018-03-01 **---**[Python基础入门-1](https://github.com/MillZhang/MarkdownBlog/issues/2)
+* 2018-02-28 **---**[Python基础入门-1](https://github.com/MillZhang/MarkdownBlog/issues/2)
+* 2018-03-01 **---**[Python基础入门-2](https://github.com/MillZhang/MarkdownBlog/issues/19)
+* 2018-03-02 **---**[Python基础入门-3](https://github.com/MillZhang/MarkdownBlog/issues/20)
 
 
 ### 笔试面试
