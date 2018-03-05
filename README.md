@@ -47,6 +47,7 @@
 * 2017-11-12 **---**[vue集成pdf.js](https://github.com/MillZhang/MarkdownBlog/issues/10)
 * 2017-12-10 **---**[MySql安装指南](https://github.com/MillZhang/MarkdownBlog/issues/11)
 * 2017-12-10 **---**[mongodb安装指南](https://github.com/MillZhang/MarkdownBlog/issues/12)
+* 2018-03-05 **---**[Linux部署wiki文档操作纪要](https://github.com/MillZhang/MarkdownBlog/issues/21)
 
 ### 服务器
 
